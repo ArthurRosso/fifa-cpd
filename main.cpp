@@ -24,11 +24,10 @@ int main (){
     ifstream f("simple.csv");
     CsvParser parser(f);
 
+    // TODO: fazer pular a primeira linha
     for (auto& row : parser) {
-        for (auto& field : row) {
-            cout << field << " | ";
-        }
-        cout << endl;
+        cout << "Player id: " << row.at(0) << endl;
+        cout << "Player name: " << row.at(1) << endl;
     }
 
 }
