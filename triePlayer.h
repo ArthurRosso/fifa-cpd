@@ -6,7 +6,7 @@
 
 using namespace std;
  
-const int ALPHABET_SIZE = 26;
+const int ALPHABET_SIZE = 28;
  
 // trie node
 class TriePlayer

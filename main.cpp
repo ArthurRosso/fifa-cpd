@@ -35,9 +35,11 @@ int main (){
 		}
     }
 
-	// findPlayerByName(trie_root, "Fer", ids);
-    // for (it=ids->begin(); it!=ids->end(); it++)
-    //     cout << "Player id: " << *it << endl;
+	findPlayerByName(trie_root, "Fer", ids);
+    for (it=ids->begin(); it!=ids->end(); it++){
+		player_current = findPlayerById(player_root, *it);
+		cout << "Player name: " << player_current->name << endl;
+	}
 
 	// printTree(player_root);
 

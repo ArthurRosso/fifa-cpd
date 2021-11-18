@@ -18,7 +18,10 @@ void insertTriePlayer(TriePlayer *root, int id, string name)
     for (int i = 0; i < name.length(); i++)
     {
         int index = tolower(name[i]) - 'a';
-        if (!root->children[index])
+        if(index>ALPHABET_SIZE || index < 0){
+            continue;
+        }
+        if (!(root->children[index]))
             root->children[index] = newTriePlayer();
  
         root = root->children[index];
@@ -50,6 +53,9 @@ void findPlayerByName(TriePlayer *root, string preffix, list<int>* ids)
     for (i = 0; i < preffix.length(); i++)
     {
         int index = tolower(preffix[i]) - 'a';
+        if(index>ALPHABET_SIZE || index < 0){
+            continue;
+        }
         if (!subtrie->children[index])
             return;
  
