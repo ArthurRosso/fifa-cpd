@@ -18,7 +18,7 @@ class TriePlayer
 
 TriePlayer* newTriePlayer(void);
 
-void insertTriePlayer(TriePlayer *root, int id, string name);
+TriePlayer* insertTriePlayer(TriePlayer *root, int id, string name);
 
 void findPlayerByNameRec(TriePlayer *subtrie, list<int>* ids);
 

@@ -13,11 +13,12 @@ int height(Player *N)
 	return N->height;
 }
 
-Player* newPlayer(int id, string name)
+Player* newPlayer(int id, string name, string positions)
 {
 	Player* player = new Player();
 	player->id = id;
 	player->name = name;
+	player->positions = positions;
 	player->rating = 0;
 	player->count = 0;
 	player->left = NULL;
@@ -62,15 +63,15 @@ int getBalance(Player *N)
 	return height(N->left) - height(N->right);
 }
 
-Player* insertPlayer(Player* player, int id, string name)
+Player* insertPlayer(Player* player, int id, string name, string positions)
 {
 	if (player == NULL)
-		return(newPlayer(id, name));
+		return(newPlayer(id, name, positions));
 
 	if (id < player->id)
-		player->left = insertPlayer(player->left, id, name);
+		player->left = insertPlayer(player->left, id, name, positions);
 	else if (id > player->id)
-		player->right = insertPlayer(player->right, id, name);
+		player->right = insertPlayer(player->right, id, name, positions);
 	else
 		return player;
 

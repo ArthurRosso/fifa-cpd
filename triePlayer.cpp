@@ -12,7 +12,7 @@ TriePlayer* newTriePlayer(void)
     return tplayer;
 }
 
-void insertTriePlayer(TriePlayer *root, int id, string name)
+TriePlayer* insertTriePlayer(TriePlayer *root, int id, string name)
 {
  
     for (int i = 0; i < name.length(); i++)
@@ -28,6 +28,7 @@ void insertTriePlayer(TriePlayer *root, int id, string name)
     }
  
     root->id_player = id;
+    return root;
 }
 
 void findPlayerByNameRec(TriePlayer *subtrie, list<int>* ids)

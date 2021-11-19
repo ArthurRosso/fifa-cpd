@@ -8,6 +8,7 @@ class Player
     public:
     int id;
     string name;
+    string positions;
     float rating;
     int count;
 	Player *left;
@@ -19,7 +20,7 @@ int max(int a, int b);
 
 int height(Player *N);
 
-Player* newPlayer(int id, string name);
+Player* newPlayer(int id, string name, string positions);
 
 Player* rightRotate(Player *y);
 
@@ -27,7 +28,7 @@ Player *leftRotate(Player *x);
 
 int getBalance(Player *N);
 
-Player* insertPlayer(Player* player, int id, string name);
+Player* insertPlayer(Player* player, int id, string name, string positions);
 
 Player* findPlayerById(Player* player, int id);
 

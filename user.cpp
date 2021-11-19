@@ -1,10 +1,5 @@
 #include "user.h"
 
-int max(int a, int b)
-{
-	return (a > b)? a : b;
-}
-
 int height(User *N)
 {
 	if (N == NULL)
@@ -16,8 +11,10 @@ User* newUser(int id, int id_player, float rating)
 {
 	User* user = new User();
 	user->id = id;
-	user->id_player = id_player;
-	user->rating = rating;
+    user->id_player = new list<int>;
+	user->id_player->push_back(id_player);
+    user->rating = new list<float>;
+	user->rating->push_back(rating);
 	user->left = NULL;
 	user->right = NULL;
 	user->height = 1;
