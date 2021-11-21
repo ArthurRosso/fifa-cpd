@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <list>
+#include <vector>
 
 using namespace std;
 
@@ -8,8 +8,8 @@ class User
 {
     public:
     int id;
-    list<int>* id_player;
-    list<float>* rating;
+    vector<int>* id_player;
+    vector<float>* rating;
 	User* left;
 	User* right;
 	int height;
@@ -28,3 +28,7 @@ int getBalance(User *N);
 User* insertUser(User* user, int id, int id_player, float rating);
 
 User* findUserById(User* user, int id);
+
+int partitionUser(vector<int>* id, vector<float>* rating, int begin, int end);
+
+void sortUser(vector<int>* id, vector<float>* rating, int begin, int end);

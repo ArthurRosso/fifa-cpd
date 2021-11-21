@@ -11,9 +11,9 @@ User* newUser(int id, int id_player, float rating)
 {
 	User* user = new User();
 	user->id = id;
-    user->id_player = new list<int>;
+    user->id_player = new vector<int>;
 	user->id_player->push_back(id_player);
-    user->rating = new list<float>;
+    user->rating = new vector<float>;
 	user->rating->push_back(rating);
 	user->left = NULL;
 	user->right = NULL;
@@ -102,4 +102,66 @@ User* findUserById(User* user, int id){
        return findUserById(user->right, id);
  
     return findUserById(user->left, id);
+}
+
+// Partitioner: Median
+// Partitioning: Lomuto
+int partitionUser(vector<int>* id, vector<float>* rating, int begin, int end){
+    int middle = (begin + end)/2;
+    int a = (*rating)[begin];
+    int b = (*rating)[middle];
+    int c = (*rating)[end];
+    int median; //índice da mediana
+    if (a < b) {
+        if (b < c) {
+            //a < b && b < c
+            median = middle;
+        } else {
+            if (a < c) {
+                //a < c && c <= b
+                median = end;
+            } else {
+                //c <= a && a < b
+                median = begin;
+            }
+        }
+    } else {
+        if (c < b) {
+            //c < b && b <= a
+            median = middle;
+        } else {
+            if (c < a) {
+                //b <= c && c < a
+                median = end;
+            } else {
+                //b <= a && a <= c
+                median = begin;
+            }
+        }
+    }
+    swap((*rating)[begin], (*rating)[median]);
+    swap((*id)[begin], (*id)[median]);
+
+    int x = (*rating)[begin];
+    int i = begin;
+    int j;
+
+    for(j=begin+1; j<=end; j++){
+        if((*rating)[j] <= x){
+            i++;
+            swap((*rating)[i], (*rating)[j]);
+            swap((*id)[i], (*id)[j]);
+        }
+    }
+    swap((*rating)[i], (*rating)[begin]);
+    swap((*id)[i], (*id)[begin]);
+    return i;
+}
+
+void sortUser(vector<int>* id, vector<float>* rating, int begin, int end){
+    if (begin < end){
+        int part = partitionUser(id, rating, begin, end);
+        sortUser(id, rating, begin, part-1);
+        sortUser(id, rating, part+1, end);
+    }
 }

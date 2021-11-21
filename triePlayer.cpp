@@ -12,23 +12,21 @@ TriePlayer* newTriePlayer(void)
     return tplayer;
 }
 
-TriePlayer* insertTriePlayer(TriePlayer *root, int id, string name)
+void insertTriePlayer(TriePlayer *root, int id, string name)
 {
- 
     for (int i = 0; i < name.length(); i++)
     {
         int index = tolower(name[i]) - 'a';
         if(index>ALPHABET_SIZE || index < 0){
             continue;
         }
-        if (!(root->children[index]))
+        if (!(root->children[index])){
             root->children[index] = newTriePlayer();
- 
+        }
         root = root->children[index];
     }
  
     root->id_player = id;
-    return root;
 }
 
 void findPlayerByNameRec(TriePlayer *subtrie, list<int>* ids)
