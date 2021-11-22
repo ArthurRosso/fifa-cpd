@@ -10,6 +10,7 @@
 #include "user.h"
 #include "triePlayer.h"
 #include "player_pointer.h"
+#include "tags.h"
 
 using namespace aria::csv;
 using namespace std;
@@ -97,6 +98,7 @@ int main (){
 				sortUser(user_current->id_player, user_current->rating, 0, user_current->rating->size());
 				cout << "sofifa_id" << " " << " name "<< "  " <<" global_rating "<< " " <<" count "<< " " <<" rating" << endl;
 				for (int i=0; i < min(20, (int)user_current->id_player->size()); i++){
+					cout << user_current->id_player->at(i) << endl;
 					player_current = findPlayerById(player_root, user_current->id_player->at(i));
 					if(player_current != NULL){
 						cout << player_current->id << "  " << player_current->name << "  " << player_current->rating << " " << player_current->count << " " << user_current->rating->at(i) << endl; // print player
@@ -108,7 +110,17 @@ int main (){
 		} else if(cmd[0]=='t' && cmd[1]=='o' && cmd[2]=='p'){
 			ss >> item;
 			cmd.erase(0,3);
-			cout << stoi(cmd) << " " << item << endl;
+			// cout << stoi(cmd) << " " << item << endl;
+			int j = position2Int(item);
+			int i=0;
+			cout << "sofifa_id" << " " << " name "<< "  " <<" global_rating "<< " " <<" count "<< " " <<" rating" << endl;
+			while(positions[j]->next != NULL && i<stoi(cmd)){
+				player_current = findPlayerById(player_root, positions[j]->id_player);
+				if(player_current != NULL && player_current->count > 1){
+					cout << player_current->id << "  " << player_current->name << "  " << player_current->rating << " " << player_current->count << " " << user_current->rating->at(i) << endl; // print player
+				}
+				i++;
+			}
 
 		} else if(cmd.compare("tags")==0){
 			cout << "Nenhuma tag encontrada :(" << endl;
