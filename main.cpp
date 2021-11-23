@@ -236,35 +236,57 @@ int main (){
 			}
 
 		} else if(cmd.compare("tags")==0){
-			ss >> item;
+			getline(ss, item, '\'');
+			getline(ss, item, '\'');
+			LinkedList* mainl;
 			int k=0;
-			struct LinkedList* iteratort = ht_get(hash, item.c_str());
-			cout.width(10);
-			cout << "sofifa_id";
-			cout.width(50);
-			cout << "name";
-			cout.width(20);
-			cout << "player_positions";
-			cout.width(10);
-			cout << "rating";
-			cout.width(8);
-			cout << "count" << endl;
-			while(iteratort->next != NULL && k<20){
-				player_current = findPlayerById(player_root, iteratort->id);
-				if(player_current != NULL){
-					cout.width(10);
-					cout << player_current->id;
-					cout.width(50);
-					cout << player_current->name;
-					cout.width(20);
-					cout << player_current->positions;
-					cout.width(10);
-					cout << (float)(player_current->rating)/(player_current->count);
-					cout.width(8);
-					cout << player_current->count << endl;
+			if(item.compare(" ") != 0 && item.compare("") != 0){
+				cout << item << endl;
+				mainl = ht_get(hash, item.c_str());
+				sortPlayerTag(&mainl);
+			}
+			
+
+			LinkedList* secondl;
+			while ((item.compare(" ") == 0) || (item.compare("") != 0)){
+				getline(ss, item, '\'');
+				if(item.compare(" ") != 0 && item.compare("") != 0){
+					secondl = ht_get(hash, item.c_str());
+					sortPlayerTag(&secondl);
+					mainl = sortedIntersect(mainl, secondl);
 				}
-				iteratort=iteratort->next;
-				k++;
+			}
+
+			if(mainl != NULL){
+				cout.width(10);
+				cout << "sofifa_id";
+				cout.width(50);
+				cout << "name";
+				cout.width(20);
+				cout << "player_positions";
+				cout.width(10);
+				cout << "rating";
+				cout.width(8);
+				cout << "count" << endl;
+				while(mainl->next != NULL && k<20){
+					player_current = findPlayerById(player_root, mainl->id);
+					if(player_current != NULL){
+						cout.width(10);
+						cout << player_current->id;
+						cout.width(50);
+						cout << player_current->name;
+						cout.width(20);
+						cout << player_current->positions;
+						cout.width(10);
+						cout << (float)(player_current->rating)/(player_current->count);
+						cout.width(8);
+						cout << player_current->count << endl;
+					}
+					mainl=mainl->next;
+					k++;
+				}
+			} else {
+				cout << "Jogadores não encontrados :(" << endl;
 			}
 			
 		} else {
@@ -272,12 +294,7 @@ int main (){
 		}
 	}
 
-	
-
-	// printTree(player_root);
-
 	return 0;
-
 }
 
 

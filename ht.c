@@ -205,3 +205,129 @@ bool ht_next(hti* it) {
     }
     return false;
 }
+
+
+// Returns the last LinkedList of the list
+struct LinkedList* getTail(struct LinkedList* cur)
+{
+    while (cur != NULL && cur->next != NULL)
+        cur = cur->next;
+    return cur;
+}
+ 
+// Partitions the list taking the last element as the pivot
+struct LinkedList* partitionPlayerTag(struct LinkedList* head, struct LinkedList* end,
+                       struct LinkedList** newHead,
+                       struct LinkedList** newEnd)
+{
+    struct LinkedList* pivot = end;
+    struct LinkedList *prev = NULL, *cur = head, *tail = pivot;
+ 
+    // During partition, both the head and end of the list
+    // might change which is updated in the newHead and
+    // newEnd variables
+    while (cur != pivot) {
+        if (cur->id < pivot->id) {
+            // First LinkedList that has a value less than the
+            // pivot - becomes the new head
+            if ((*newHead) == NULL)
+                (*newHead) = cur;
+ 
+            prev = cur;
+            cur = cur->next;
+        }
+        else // If cur LinkedList is greater than pivot
+        {
+            // Move cur LinkedList to next of tail, and change
+            // tail
+            if (prev)
+                prev->next = cur->next;
+            struct LinkedList* tmp = cur->next;
+            cur->next = NULL;
+            tail->next = cur;
+            tail = cur;
+            cur = tmp;
+        }
+    }
+ 
+    // If the pivot data is the smallest element in the
+    // current list, pivot becomes the head
+    if ((*newHead) == NULL)
+        (*newHead) = pivot;
+ 
+    // Update newEnd to the current last LinkedList
+    (*newEnd) = tail;
+ 
+    // Return the pivot LinkedList
+    return pivot;
+}
+ 
+// here the sorting happens exclusive of the end LinkedList
+struct LinkedList* sortPlayerTagRec(struct LinkedList* head,
+                            struct LinkedList* end)
+{
+    // base condition
+    if (!head || head == end)
+        return head;
+ 
+    LinkedList *newHead = NULL, *newEnd = NULL;
+ 
+    // Partition the list, newHead and newEnd will be
+    // updated by the partition function
+    struct LinkedList* pivot = partitionPlayerTag(head, end, &newHead, &newEnd);
+ 
+    // If pivot is the smallest element - no need to recur
+    // for the left part.
+    if (newHead != pivot) {
+        // Set the LinkedList before the pivot LinkedList as NULL
+        struct LinkedList* tmp = newHead;
+        while (tmp->next != pivot)
+            tmp = tmp->next;
+        tmp->next = NULL;
+ 
+        // Recur for the list before pivot
+        newHead = sortPlayerTagRec(newHead, tmp);
+ 
+        // Change next of last LinkedList of the left half to
+        // pivot
+        tmp = getTail(newHead);
+        tmp->next = pivot;
+    }
+ 
+    // Recur for the list after the pivot element
+    pivot->next = sortPlayerTagRec(pivot->next, newEnd);
+ 
+    return newHead;
+}
+ 
+// The main function for quick sort. This is a wrapper over
+// recursive function quickSortRecur()
+void sortPlayerTag(struct LinkedList** headRef)
+{
+    (*headRef) = sortPlayerTagRec(*headRef, getTail(*headRef));
+    return;
+}
+
+struct LinkedList* sortedIntersect(struct LinkedList* a, struct LinkedList* b){/* base case */
+    if (a == NULL || b == NULL)
+        return NULL;
+ 
+    /* If both lists are non-empty */
+ 
+    /* advance the smaller list and call recursively */
+    if (a->id < b->id)
+        return sortedIntersect(a->next, b);
+ 
+    if (a->id > b->id)
+        return sortedIntersect(a, b->next);
+ 
+    // Below lines are executed only
+    // when a->id == b->id
+    struct LinkedList* temp = (struct LinkedList*)malloc(sizeof(struct LinkedList));
+    temp->id = a->id;
+ 
+    /* advance both lists and call recursively */
+    temp->next = sortedIntersect(a->next, b->next);
+    return temp;
+}
+ 

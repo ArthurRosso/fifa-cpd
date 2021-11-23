@@ -51,4 +51,15 @@ hti ht_iterator(ht* table);
 // items, return false. Don't call ht_set during iteration.
 bool ht_next(hti* it);
 
+struct LinkedList* getTail(struct LinkedList* cur);
+ 
+struct LinkedList* partitionPlayerTag(struct LinkedList* head, struct LinkedList* end,
+                       struct LinkedList** newHead, struct LinkedList** newEnd);
+					   
+struct LinkedList* sortPlayerTagRec(struct LinkedList* head, struct LinkedList* end);
+
+void sortPlayerTag(struct LinkedList** headRef);
+
+struct LinkedList* sortedIntersect(struct LinkedList* a, struct LinkedList* b);
+
 #endif // _HT_H
