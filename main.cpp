@@ -91,31 +91,62 @@ int main (){
 			ishead=false;
 			continue;
 		}
-		ht_set(hash, (row[2]).c_str(), stoi(row[1]));
+		LinkedList* value = ht_get(hash, (row[2]).c_str());
+		if(value == NULL){
+			value = (LinkedList*)malloc(sizeof(LinkedList));
+			value->next = NULL;
+			value->id = stoi(row[1]);
+			ht_set(hash, (row[2]).c_str(), value);
+		} else {
+			while(value->next != NULL && value->id < stoi(row[1])){
+				value=value->next;
+			}
+			if(value->next == NULL){
+				if(value->id < stoi(row[1])){
+					value->next = (LinkedList*)malloc(sizeof(LinkedList));
+					value->next->next = NULL;
+					value->next->id = stoi(row[1]);
+				} else if (value->id > stoi(row[1])){
+					value->next = (LinkedList*)malloc(sizeof(LinkedList));
+					value->next->next = NULL;
+					value->next->id = value->id;
+					value->id = stoi(row[1]);
+				}
+			} else {
+				if(value->id != stoi(row[1])){
+					LinkedList* newl = (LinkedList*)malloc(sizeof(LinkedList));
+					newl->id=value->id;
+					newl->next=value->next;
+
+					value->id= stoi(row[1]);
+					value->next=newl;
+				}
+			}
+		}
     }
 	t.close();
 
-	// for(int i=0; i<MAX_POS; i++){
-	// 	PlayerPointer* temp = positions[i];
-	// 	PlayerPointer* prev = NULL;
+	for(int i=0; i<MAX_POS; i++){
+		PlayerPointer* temp = positions[i];
+		PlayerPointer* prev = NULL;
 
-	// 	while(temp != NULL){
-	// 		player_current = findPlayerById(player_root, temp->id_player);
-	// 		if(player_current->count < 1000){
-	// 			if(prev != NULL){
-	// 				prev->next=temp->next;
-	// 			} else {
-	// 				temp=temp->next;
-	// 			}
-	// 		}
-	// 		prev = temp;
-	// 		temp = temp->next;
-	// 	}
-	// }
+		while(temp != NULL){
+			player_current = findPlayerById(player_root, temp->id_player);
+			if(player_current->count < 1000){
+				if(prev != NULL){
+					prev->next=temp->next;
+				} else {
+					temp=temp->next;
+				}
+			}
+			prev = temp;
+			temp = temp->next;
+		}
+	}
 
-	// for(int i=0; i<MAX_POS; i++){
-	// 	sortPlayerPointer(&positions[i], player_root);
-	// }
+	for(int i=0; i<MAX_POS; i++){
+		sortPlayerPointer(&positions[i], player_root);
+	}
 
 	time(&ending);
 
@@ -241,19 +272,19 @@ int main (){
 			LinkedList* mainl;
 			int k=0;
 			if(item.compare(" ") != 0 && item.compare("") != 0){
-				cout << item << endl;
+				cout << "-" << item << "-" << endl;
 				mainl = ht_get(hash, item.c_str());
-				sortPlayerTag(&mainl);
 			}
 			
-
 			LinkedList* secondl;
 			while ((item.compare(" ") == 0) || (item.compare("") != 0)){
 				getline(ss, item, '\'');
 				if(item.compare(" ") != 0 && item.compare("") != 0){
+					cout << "-" << item << "-" << endl;
 					secondl = ht_get(hash, item.c_str());
-					sortPlayerTag(&secondl);
-					mainl = sortedIntersect(mainl, secondl);
+					if(secondl != NULL){
+						mainl = sortedIntersect(mainl, secondl);
+					}
 				}
 			}
 
@@ -268,7 +299,7 @@ int main (){
 				cout << "rating";
 				cout.width(8);
 				cout << "count" << endl;
-				while(mainl->next != NULL && k<20){
+				while(mainl != NULL && k<20){
 					player_current = findPlayerById(player_root, mainl->id);
 					if(player_current != NULL){
 						cout.width(10);

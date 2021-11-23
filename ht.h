@@ -28,7 +28,7 @@ LinkedList* ht_get(ht* table, const char* key);
 // be NULL). If not already present in table, key is copied to newly
 // allocated memory (keys are freed automatically when ht_destroy is
 // called). Return address of copied key, or NULL if out of memory.
-const char* ht_set(ht* table, const char* key, int value);
+const char* ht_set(ht* table, const char* key, LinkedList* value);
 
 // Return number of items in hash table.
 size_t ht_length(ht* table);

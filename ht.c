@@ -2,6 +2,7 @@
 
 #include "ht.h"
 
+#include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -97,19 +98,8 @@ static const char* ht_set_entry(ht_entry* entries, size_t capacity, const char* 
     // Loop till we find an empty entry.
     while (entries[index].key != NULL) {
         if (strcmp(key, entries[index].key) == 0) {
-            // Found key (it already exists), add to head of linked list
-            int exists=0;
-            LinkedList* temp = entries[index].value;
-            while(temp->next != NULL){
-                if(temp->id==value->id){
-                    exists=1;
-                }
-                temp=temp->next;
-            }
-            if(!exists){
-                value->next=entries[index].value;
-                entries[index].value=value;
-            }
+            // Found key (it already exists), add value to head of linked list
+            entries[index].value=value;
             return entries[index].key;
         }
         // Key wasn't in this slot, move to next (linear probing).
@@ -129,7 +119,6 @@ static const char* ht_set_entry(ht_entry* entries, size_t capacity, const char* 
         (*plength)++;
     }
     entries[index].key = (char*)key;
-    value->next=entries[index].value;
     entries[index].value=value;
     return key;
 }
@@ -162,7 +151,7 @@ static bool ht_expand(ht* table) {
     return true;
 }
 
-const char* ht_set(ht* table, const char* key, int value) {
+const char* ht_set(ht* table, const char* key, LinkedList* value) {
 
     // If length will exceed half of current capacity, expand it.
     if (table->length >= table->capacity / 2) {
@@ -171,11 +160,8 @@ const char* ht_set(ht* table, const char* key, int value) {
         }
     }
     
-    LinkedList* newl = (LinkedList*) malloc(sizeof(LinkedList));
-    newl->id=value;
-    newl->next=NULL;
     // Set entry and update length.
-    return ht_set_entry(table->entries, table->capacity, key, newl, &table->length);
+    return ht_set_entry(table->entries, table->capacity, key, value, &table->length);
 }
 
 size_t ht_length(ht* table) {
