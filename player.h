@@ -1,3 +1,6 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include <iostream>
 #include <string>
 
@@ -33,3 +36,5 @@ Player* insertPlayer(Player* player, int id, string name, string positions);
 Player* findPlayerById(Player* player, int id);
 
 void printTree(Player *root);
+
+#endif /* PLAYER_H */

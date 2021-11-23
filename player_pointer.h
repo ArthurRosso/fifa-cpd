@@ -1,5 +1,9 @@
+#ifndef PLAYER_POINTER_H
+#define PLAYER_POINTER_H
+
 #include <iostream>
 #include <string>
+#include "player.h"
 
 using namespace std;
 
@@ -16,3 +20,5 @@ PlayerPointer* insertPlayerPointer(PlayerPointer* root, int id);
 int position2Int (string name);
 
 string int2Position (int i);
+
+#endif /* PLAYER_POINTER_H */

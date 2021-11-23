@@ -17,49 +17,49 @@ PlayerPointer* insertPlayerPointer(PlayerPointer* root, int id){
 }
 
 int position2Int (string name){
-    if(name.compare("ST")){
+    if(name.compare("ST")==0){
         return 0;
     } 
-    if(name.compare("LW")){
+    if(name.compare("LW")==0){
         return 1;
     } 
-    if(name.compare("CF")){
+    if(name.compare("CF")==0){
         return 2;
     } 
-    if(name.compare("RW")){
+    if(name.compare("RW")==0){
         return 3;
     } 
-    if(name.compare("CAM")){
+    if(name.compare("CAM")==0){
         return 4;
     } 
-    if(name.compare("LM")){
+    if(name.compare("LM")==0){
         return 5;
     } 
-    if(name.compare("CM")){
+    if(name.compare("CM")==0){
         return 6;
     } 
-    if(name.compare("RM")){
+    if(name.compare("RM")==0){
         return 7;
     } 
-    if(name.compare("LWB")){
+    if(name.compare("LWB")==0){
         return 8;
     } 
-    if(name.compare("CDM")){
+    if(name.compare("CDM")==0){
         return 9;
     } 
-    if(name.compare("RWB")){
+    if(name.compare("RWB")==0){
         return 10;
     } 
-    if(name.compare("LB")){
+    if(name.compare("LB")==0){
         return 11;
     } 
-    if(name.compare("CB")){
+    if(name.compare("CB")==0){
         return 12;
     } 
-    if(name.compare("RB")){
+    if(name.compare("RB")==0){
         return 13;
     } 
-    if(name.compare("GK")){
+    if(name.compare("GK")==0){
         return 14;
     } 
     
